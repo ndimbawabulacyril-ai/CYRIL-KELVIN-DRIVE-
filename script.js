@@ -1,23 +1,23 @@
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+// --- CONFIGURATION SUPABASE AUTO-CONFIGURÉE ---
+const SUPABASE_URL = 'https://rxglpuqsvllkhngcosvy.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4Z2xwdXFzdmxsa2huZ2Nvc3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzNzg4OTAsImV4cCI6MjEwMTk1NDg5MH0.pfs-5CDXJANcOWxASXGs_43ixi7IIRd8EEYnWFPMzvc';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 // --- INITIALISATION 3D (Background) ---
 const canvas = document.querySelector('#bg-canvas');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-
 renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.z = 30;
 
-// Particules dorées pour le style premium
 const particlesGeometry = new THREE.BufferGeometry();
-const particlesCount = 1500;
-const posArray = new Float32Array(particlesCount * 3);
-
-for(let i=0; i < particlesCount * 3; i++) {
-    posArray[i] = (Math.random() - 0.5) * 100;
-}
+const posArray = new Float32Array(1500 * 3);
+for(let i=0; i < 4500; i++) posArray[i] = (Math.random() - 0.5) * 100;
 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-const particlesMaterial = new THREE.PointsMaterial({ size: 0.05, color: 0xd4af37 });
-const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+const particlesMesh = new THREE.Points(particlesGeometry, new THREE.PointsMaterial({ size: 0.08, color: 0xd4af37, transparent: true, opacity: 0.8 }));
 scene.add(particlesMesh);
 
 function animate() {
@@ -28,144 +28,124 @@ function animate() {
 }
 animate();
 
-// --- LOGIQUE DE L'APPLICATION ---
-
-let vaults = JSON.parse(localStorage.getItem('ck_vaults')) || [];
+// --- LOGIQUE DRIVE ---
 let currentVault = null;
-
-// Icônes Lucide
 lucide.createIcons();
 
-// DOM Elements
 const vaultGrid = document.getElementById('vault-grid');
 const modalCreate = document.getElementById('modal-create');
-const btnCreateVault = document.getElementById('btn-create-vault');
 
-btnCreateVault.onclick = () => modalCreate.style.display = 'flex';
-
-function closeModals() {
-    modalCreate.style.display = 'none';
+// Charger les coffres au démarrage
+async function loadVaults() {
+    const { data, error } = await supabase.from('vaults').select('*').order('created_at', { ascending: false });
+    if (error) console.error("Erreur chargement:", error);
+    else renderVaults(data);
 }
 
-// Créer un coffre
-function handleCreateVault() {
-    const name = document.getElementById('new-vault-name').value;
-    const pass = document.getElementById('new-vault-pass').value;
-
-    if(!name || !pass) return alert("Remplis tous les champs");
-
-    const newVault = {
-        id: Date.now(),
-        name,
-        password: pass,
-        files: [] // Stockera des objets {name, data}
-    };
-
-    vaults.push(newVault);
-    saveVaults();
-    renderVaults();
-    closeModals();
-    document.getElementById('new-vault-name').value = '';
-    document.getElementById('new-vault-pass').value = '';
-}
-
-function saveVaults() {
-    localStorage.setItem('ck_vaults', JSON.stringify(vaults));
-}
-
-// Afficher les coffres
-function renderVaults() {
+function renderVaults(vaults) {
     vaultGrid.innerHTML = '';
     vaults.forEach(v => {
         const div = document.createElement('div');
         div.className = 'vault-card';
-        div.innerHTML = `
-            <i data-lucide="lock"></i>
-            <h3>${v.name}</h3>
-        `;
-        div.onclick = () => openVault(v.id);
+        div.innerHTML = `<i data-lucide="lock"></i><h3>${v.name}</h3>`;
+        div.onclick = () => openVault(v);
         vaultGrid.appendChild(div);
     });
     lucide.createIcons();
 }
 
-// Ouvrir un coffre (Mot de passe)
-function openVault(id) {
-    const v = vaults.find(v => v.id === id);
-    const pass = prompt("Entrez le mot de passe pour '" + v.name + "' :");
+// Créer un coffre
+window.handleCreateVault = async () => {
+    const name = document.getElementById('new-vault-name').value;
+    const pass = document.getElementById('new-vault-pass').value;
+
+    if(!name || !pass) return alert("Remplis tous les champs");
+
+    const { error } = await supabase.from('vaults').insert([{ name, password: pass }]);
     
-    if(pass === v.password) {
-        currentVault = v;
-        showVaultContent();
+    if (error) alert("Erreur : " + error.message);
+    else {
+        closeModals();
+        loadVaults();
+        document.getElementById('new-vault-name').value = '';
+        document.getElementById('new-vault-pass').value = '';
+    }
+}
+
+// Ouvrir un coffre
+async function openVault(vault) {
+    const pass = prompt(`Mot de passe pour "${vault.name}" :`);
+    if(pass === vault.password) {
+        currentVault = vault;
+        document.getElementById('vault-view').style.display = 'flex';
+        document.getElementById('current-vault-title').innerText = currentVault.name;
+        loadFiles();
     } else {
-        alert("Mot de passe incorrect");
+        alert("Accès refusé.");
     }
 }
 
-function showVaultContent() {
-    const view = document.getElementById('vault-view');
-    document.getElementById('current-vault-title').innerText = currentVault.name;
-    view.style.display = 'flex';
-    renderFiles();
-}
-
-function closeVaultView() {
-    document.getElementById('vault-view').style.display = 'none';
-    currentVault = null;
-}
-
-// Gestion des fichiers (Base64 pour la simulation)
-function handleFileUpload(event) {
-    const files = event.target.files;
-    for(let file of files) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            currentVault.files.push({
-                name: file.name,
-                type: file.type,
-                data: e.target.result
-            });
-            saveVaults();
-            renderFiles();
-        };
-        reader.readAsDataURL(file);
-    }
-}
-
-function renderFiles() {
+// Charger les fichiers
+async function loadFiles() {
+    const { data, error } = await supabase.from('files').select('*').eq('vault_id', currentVault.id);
+    if (error) return;
+    
     const grid = document.getElementById('file-grid');
     grid.innerHTML = '';
-    currentVault.files.forEach(f => {
+    data.forEach(file => {
+        const { data: { publicUrl } } = supabase.storage.from('vault-assets').getPublicUrl(file.storage_path);
         const div = document.createElement('div');
         div.className = 'file-item';
-        if(f.type.includes('image')) {
-            div.innerHTML = `<img src="${f.data}">`;
+        if(file.file_type.includes('image')) {
+            div.innerHTML = `<img src="${publicUrl}" loading="lazy">`;
         } else {
-            div.innerHTML = `<video src="${f.data}" controls></video>`;
+            div.innerHTML = `<video src="${publicUrl}" controls></video>`;
         }
         grid.appendChild(div);
     });
 }
 
-// Télécharger tout en ZIP
-async function downloadAllFiles() {
-    if(currentVault.files.length === 0) return alert("Le coffre est vide");
-    
-    const zip = new JSZip();
-    currentVault.files.forEach(f => {
-        // Enlever le header Base64
-        const base64Data = f.data.split(',')[1];
-        zip.file(f.name, base64Data, {base64: true});
-    });
+// Upload vers Storage
+window.handleFileUpload = async (event) => {
+    const files = event.target.files;
+    for(let file of files) {
+        const filePath = `${currentVault.id}/${Date.now()}_${file.name}`;
+        const { error: uploadError } = await supabase.storage.from('vault-assets').upload(filePath, file);
 
-    const content = await zip.generateAsync({type:"blob"});
-    saveAs(content, `${currentVault.name}_archive.zip`);
+        if (!uploadError) {
+            await supabase.from('files').insert([{
+                vault_id: currentVault.id,
+                file_name: file.name,
+                storage_path: filePath,
+                file_type: file.type
+            }]);
+        }
+    }
+    loadFiles();
 }
 
-// Initialisation
-renderVaults();
+// Téléchargement ZIP
+window.downloadAllFiles = async () => {
+    const { data: files } = await supabase.from('files').select('*').eq('vault_id', currentVault.id);
+    if(!files || files.length === 0) return alert("Coffre vide");
 
-// Resize 3D on window change
+    const zip = new JSZip();
+    for(let file of files) {
+        const { data: { publicUrl } } = supabase.storage.from('vault-assets').getPublicUrl(file.storage_path);
+        const response = await fetch(publicUrl);
+        const blob = await response.blob();
+        zip.file(file.file_name, blob);
+    }
+    const content = await zip.generateAsync({type:"blob"});
+    saveAs(content, `${currentVault.name}.zip`);
+}
+
+window.closeModals = () => modalCreate.style.display = 'none';
+window.closeVaultView = () => document.getElementById('vault-view').style.display = 'none';
+document.getElementById('btn-create-vault').onclick = () => modalCreate.style.display = 'flex';
+
+loadVaults();
+
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
