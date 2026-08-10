@@ -1,192 +1,56 @@
 :root {
-    --bg-dark: #0a0a12;
-    --midnight: #1a1a2e;
+    --bg: #05050a;
+    --card: rgba(20, 20, 35, 0.7);
     --gold: #d4af37;
-    --gold-bright: #f9e27d;
-    --text-white: #ffffff;
-    --glass: rgba(255, 255, 255, 0.05);
+    --white: #ffffff;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--white); margin: 0; }
+#bg-canvas { position: fixed; z-index: -1; }
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--bg-dark);
-    color: var(--text-white);
-    overflow-x: hidden;
-}
+.app-container { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
-#bg-canvas {
-    position: fixed;
-    top: 0; left: 0;
-    z-index: -1;
-}
+header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
+.header-btns { display: flex; gap: 15px; align-items: center; }
 
-.app-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 40px 0;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.logo h1 {
-    font-size: 1.5rem;
-    letter-spacing: 2px;
-}
-
-.logo span { color: var(--gold); }
-
-.gold-icon { color: var(--gold); width: 40px; height: 40px; }
-
-/* Boutons Premium */
 .btn-primary, .btn-gold {
-    background: linear-gradient(135deg, var(--gold), #8a6d3b);
-    color: #000;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: 0.3s transform;
+    background: var(--gold); color: black; border: none; padding: 10px 20px;
+    border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;
 }
 
-.btn-primary:hover { transform: translateY(-3px); }
+.btn-text { background: none; border: none; color: #888; cursor: pointer; text-decoration: underline; }
 
-/* Grille de coffres */
-#vault-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 30px;
-    margin-top: 50px;
+.intro-card {
+    background: var(--card); border: 1px solid var(--gold); padding: 20px;
+    border-radius: 15px; margin-bottom: 30px; text-align: center; backdrop-filter: blur(10px);
 }
 
-.vault-card {
-    background: var(--glass);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    padding: 40px 20px;
-    border-radius: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.vault-card:hover {
-    border-color: var(--gold);
-    background: rgba(212, 175, 55, 0.05);
-}
-
-.vault-card i {
-    width: 60px; height: 60px;
-    margin-bottom: 15px;
-    color: var(--gold);
-}
-
-/* Modals */
-.modal, .vault-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    background: var(--midnight);
-    padding: 40px;
-    border-radius: 15px;
-    border: 1px solid var(--gold);
-    width: 90%; max-width: 400px;
-}
-
-input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid #444;
-    color: white;
-    border-radius: 5px;
-}
-
-/* Vue intérieur du coffre */
-.vault-overlay {
-    background: var(--bg-dark);
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 40px;
-    overflow-y: auto;
-}
-
-.vault-header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px;
-}
+/* Sections de fichiers */
+.file-category { margin-top: 40px; }
+.category-title { border-left: 4px solid var(--gold); padding-left: 15px; margin-bottom: 15px; font-size: 1.2rem; }
 
 .file-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    width: 100%;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px;
 }
 
 .file-item {
-    width: 100%;
-    height: 200px;
-    border-radius: 10px;
-    overflow: hidden;
-    background: #000;
+    background: var(--card); border-radius: 10px; overflow: hidden; position: relative;
+    border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
 }
 
-.file-item img, .file-item video {
-    width: 100%; height: 100%;
-    object-fit: cover;
+.file-item:hover { transform: scale(1.03); border-color: var(--gold); }
+
+.file-item img, .file-item video { width: 100%; aspect-ratio: 1; object-fit: cover; }
+
+.file-info { padding: 8px; font-size: 0.7rem; color: #ccc; }
+
+.btn-delete {
+    position: absolute; top: 5px; right: 5px; background: rgba(255,0,0,0.7);
+    border: none; color: white; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;
 }
 
-@media (max-width: 768px) {
-    header { flex-direction: column; gap: 20px; }
-}
-/* Ajoute ça à la fin de style.css */
-.file-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* Adapté au mobile */
-    gap: 15px;
-    width: 100%;
-    padding: 20px 0;
-    min-height: 200px; /* Assure que la zone est visible */
-}
-
-.file-item {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid var(--gold);
-    background: #000;
-}
-
-.file-item img, .file-item video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* Mobile responsive header */
+@media (max-width: 600px) {
+    .vault-header { flex-direction: column; gap: 20px; text-align: center; }
+    .vault-btns { width: 100%; display: flex; justify-content: center; gap: 10px; }
 }
