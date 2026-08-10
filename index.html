@@ -15,10 +15,10 @@
     <canvas id="bg-canvas"></canvas>
 
     <div class="app-container">
-        <!-- Message d'explication -->
-        <section id="how-it-works" class="intro-card">
-            <h2>Bienvenue sur CK Drive</h2>
-            <p>Le coffre-fort numérique 3D le plus sécurisé. Créez un coffre, protégez-le par mot de passe et stockez vos fichiers précieux.</p>
+        <!-- Message d'introduction -->
+        <section class="intro-card">
+            <h2>🔒 Bienvenue sur CYRIL KELVIN Drive</h2>
+            <p>Le coffre-fort numérique 3D sécurisé. Créez votre espace privé, uploadez vos fichiers et accédez-y partout. Vos données sont classées automatiquement.</p>
         </section>
 
         <header>
@@ -28,11 +28,15 @@
             </div>
             <div class="header-btns">
                 <button onclick="document.getElementById('modal-forgot').style.display='flex'" class="btn-text">Pass oublié ?</button>
-                <button id="btn-create-vault" class="btn-primary"><i data-lucide="plus"></i> Nouveau</button>
+                <button id="btn-create-vault" class="btn-primary" onclick="document.getElementById('modal-create').style.display='flex'">
+                    <i data-lucide="plus"></i> Nouveau
+                </button>
             </div>
         </header>
 
-        <main id="vault-grid"></main>
+        <main id="vault-grid">
+            <!-- Les coffres apparaîtront ici -->
+        </main>
     </div>
 
     <!-- Modal Création -->
@@ -52,7 +56,7 @@
     <div id="modal-forgot" class="modal">
         <div class="modal-content">
             <h2>Récupération</h2>
-            <p>Remplissez et recevez votre mot de passe par WhatsApp.</p>
+            <p>Un agent vous renverra votre mot de passe sur WhatsApp.</p>
             <input type="text" id="recup-nom" placeholder="Votre Nom">
             <input type="text" id="recup-vault" placeholder="Nom du coffre">
             <input type="text" id="recup-phone" placeholder="Votre Numéro WhatsApp">
@@ -81,10 +85,10 @@
         </div>
         
         <div id="file-sections">
-            <!-- Sections générées par JS : Images, Vidéos, etc. -->
+            <!-- Sections générées : Images, Vidéos, Audio, Documents -->
         </div>
     </div>
 
     <script type="module" src="script.js"></script>
 </body>
-</html>
+    </html>
