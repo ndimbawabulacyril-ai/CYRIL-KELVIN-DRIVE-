@@ -30,7 +30,7 @@
         </header>
 
         <main id="vault-grid">
-            <!-- Les coffres apparaîtront ici -->
+            <!-- Les coffres apparaîtront ici via le JS -->
         </main>
     </div>
 
@@ -41,8 +41,9 @@
             <input type="text" id="new-vault-name" placeholder="Nom du coffre">
             <input type="password" id="new-vault-pass" placeholder="Mot de passe">
             <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModals()">Annuler</button>
-                <button class="btn-primary" onclick="handleCreateVault()">Créer</button>
+                <!-- Ajout de type="button" pour éviter des rechargements de page inutiles -->
+                <button type="button" class="btn-secondary" onclick="closeModals()">Annuler</button>
+                <button type="button" class="btn-primary" onclick="handleCreateVault()">Créer</button>
             </div>
         </div>
     </div>
@@ -55,7 +56,9 @@
             </button>
             <h2 id="current-vault-title">Nom du Coffre</h2>
             <div class="vault-actions">
+                <!-- Input file caché -->
                 <input type="file" id="file-upload" multiple accept="image/*,video/*" hidden onchange="handleFileUpload(event)">
+                
                 <button class="btn-gold" onclick="document.getElementById('file-upload').click()">
                     <i data-lucide="upload"></i> Upload
                 </button>
@@ -65,10 +68,11 @@
             </div>
         </div>
         <div id="file-grid" class="file-grid">
-            <!-- Photos et Vidéos ici -->
+            <!-- Photos et Vidéos apparaîtront ici -->
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- LE CHANGEMENT CRUCIAL EST ICI : type="module" -->
+    <script type="module" src="script.js"></script>
 </body>
 </html>
