@@ -3,47 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CYRIL KELVIN Drive | Coffres Sécurisés</title>
+    <title>CYRIL KELVIN Drive | Premium Storage</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Polices et Icônes -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Bibliothèques 3D et ZIP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
-
-    <!-- Fond 3D Canvas -->
     <canvas id="bg-canvas"></canvas>
 
     <div class="app-container">
+        <!-- Message d'explication -->
+        <section id="how-it-works" class="intro-card">
+            <h2>Bienvenue sur CK Drive</h2>
+            <p>Le coffre-fort numérique 3D le plus sécurisé. Créez un coffre, protégez-le par mot de passe et stockez vos fichiers précieux.</p>
+        </section>
+
         <header>
             <div class="logo">
                 <i data-lucide="shield-check" class="gold-icon"></i>
-                <h1>CYRIL KELVIN <span>DRIVE</span></h1>
+                <h1>CK <span>DRIVE</span></h1>
             </div>
-            <button id="btn-create-vault" class="btn-primary">
-                <i data-lucide="plus-circle"></i> Créer un Coffre
-            </button>
+            <div class="header-btns">
+                <button onclick="document.getElementById('modal-forgot').style.display='flex'" class="btn-text">Pass oublié ?</button>
+                <button id="btn-create-vault" class="btn-primary"><i data-lucide="plus"></i> Nouveau</button>
+            </div>
         </header>
 
-        <main id="vault-grid">
-            <!-- Les coffres apparaîtront ici via le JS -->
-        </main>
+        <main id="vault-grid"></main>
     </div>
 
-    <!-- Modal Création de Coffre -->
+    <!-- Modal Création -->
     <div id="modal-create" class="modal">
         <div class="modal-content">
             <h2>Nouveau Coffre</h2>
             <input type="text" id="new-vault-name" placeholder="Nom du coffre">
             <input type="password" id="new-vault-pass" placeholder="Mot de passe">
             <div class="modal-actions">
-                <!-- Ajout de type="button" pour éviter des rechargements de page inutiles -->
-                <button type="button" class="btn-secondary" onclick="closeModals()">Annuler</button>
-                <button type="button" class="btn-primary" onclick="handleCreateVault()">Créer</button>
+                <button class="btn-secondary" onclick="closeModals()">Annuler</button>
+                <button class="btn-primary" onclick="handleCreateVault()">Créer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Mot de passe oublié -->
+    <div id="modal-forgot" class="modal">
+        <div class="modal-content">
+            <h2>Récupération</h2>
+            <p>Remplissez et recevez votre mot de passe par WhatsApp.</p>
+            <input type="text" id="recup-nom" placeholder="Votre Nom">
+            <input type="text" id="recup-vault" placeholder="Nom du coffre">
+            <input type="text" id="recup-phone" placeholder="Votre Numéro WhatsApp">
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeModals()">Annuler</button>
+                <button class="btn-gold" onclick="sendRecoveryWhatsApp()">Envoyer</button>
             </div>
         </div>
     </div>
@@ -51,28 +66,25 @@
     <!-- Vue Intérieur du Coffre -->
     <div id="vault-view" class="vault-overlay">
         <div class="vault-header">
-            <button class="btn-back" onclick="closeVaultView()">
-                <i data-lucide="arrow-left"></i> Retour
-            </button>
-            <h2 id="current-vault-title">Nom du Coffre</h2>
-            <div class="vault-actions">
-                <!-- Input file caché -->
-                <input type="file" id="file-upload" multiple accept="image/*,video/*" hidden onchange="handleFileUpload(event)">
-                
-                <button class="btn-gold" onclick="document.getElementById('file-upload').click()">
-                    <i data-lucide="upload"></i> Upload
-                </button>
-                <button class="btn-gold" onclick="downloadAllFiles()">
-                    <i data-lucide="download-cloud"></i> ZIP All
-                </button>
+            <div class="vault-info">
+                <button class="btn-back" onclick="closeVaultView()"><i data-lucide="chevron-left"></i></button>
+                <div>
+                    <h2 id="welcome-msg">Bienvenue</h2>
+                    <p id="current-vault-title" class="gold-text"></p>
+                </div>
+            </div>
+            <div class="vault-btns">
+                <input type="file" id="file-upload" multiple onchange="handleFileUpload(event)" hidden>
+                <button class="btn-gold" onclick="document.getElementById('file-upload').click()"><i data-lucide="upload-cloud"></i> Upload</button>
+                <button class="btn-gold" onclick="downloadAllFiles()"><i data-lucide="download"></i> ZIP All</button>
             </div>
         </div>
-        <div id="file-grid" class="file-grid">
-            <!-- Photos et Vidéos apparaîtront ici -->
+        
+        <div id="file-sections">
+            <!-- Sections générées par JS : Images, Vidéos, etc. -->
         </div>
     </div>
 
-    <!-- LE CHANGEMENT CRUCIAL EST ICI : type="module" -->
     <script type="module" src="script.js"></script>
 </body>
 </html>
