@@ -18,7 +18,7 @@
         <!-- Message d'introduction -->
         <section class="intro-card">
             <h2>🔒 Bienvenue sur CYRIL KELVIN Drive</h2>
-            <p>Le coffre-fort numérique 3D sécurisé. Créez votre espace privé, uploadez vos fichiers et accédez-y partout. Vos données sont classées automatiquement.</p>
+            <p>Le coffre-fort numérique sécurisé. Créez un coffre, stockez vos fichiers et accédez-y partout. Vos données sont classées par catégories automatiquement.</p>
         </section>
 
         <header>
@@ -28,15 +28,13 @@
             </div>
             <div class="header-btns">
                 <button onclick="document.getElementById('modal-forgot').style.display='flex'" class="btn-text">Pass oublié ?</button>
-                <button id="btn-create-vault" class="btn-primary" onclick="document.getElementById('modal-create').style.display='flex'">
+                <button class="btn-primary" onclick="document.getElementById('modal-create').style.display='flex'">
                     <i data-lucide="plus"></i> Nouveau
                 </button>
             </div>
         </header>
 
-        <main id="vault-grid">
-            <!-- Les coffres apparaîtront ici -->
-        </main>
+        <main id="vault-grid"></main>
     </div>
 
     <!-- Modal Création -->
@@ -52,12 +50,12 @@
         </div>
     </div>
 
-    <!-- Modal Mot de passe oublié -->
+    <!-- Modal WhatsApp -->
     <div id="modal-forgot" class="modal">
         <div class="modal-content">
             <h2>Récupération</h2>
-            <p>Un agent vous renverra votre mot de passe sur WhatsApp.</p>
-            <input type="text" id="recup-nom" placeholder="Votre Nom">
+            <p>Remplissez ce formulaire. Votre mot de passe vous sera envoyé par WhatsApp par l'un de nos agents.</p>
+            <input type="text" id="recup-nom" placeholder="Votre Nom complet">
             <input type="text" id="recup-vault" placeholder="Nom du coffre">
             <input type="text" id="recup-phone" placeholder="Votre Numéro WhatsApp">
             <div class="modal-actions">
@@ -83,10 +81,19 @@
                 <button class="btn-gold" onclick="downloadAllFiles()"><i data-lucide="download"></i> ZIP All</button>
             </div>
         </div>
-        
-        <div id="file-sections">
-            <!-- Sections générées : Images, Vidéos, Audio, Documents -->
+
+        <!-- Barre de Progression -->
+        <div id="upload-progress-container" class="progress-container" style="display: none;">
+            <div class="progress-info">
+                <span id="upload-status">Chargement...</span>
+                <span id="upload-percentage">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div id="progress-bar-fill" class="progress-bar-fill"></div>
+            </div>
         </div>
+        
+        <div id="file-sections"></div>
     </div>
 
     <script type="module" src="script.js"></script>
