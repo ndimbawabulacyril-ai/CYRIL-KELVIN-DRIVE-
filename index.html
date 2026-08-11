@@ -14,27 +14,43 @@
 <body>
     <canvas id="bg-canvas"></canvas>
 
-    <div class="app-container">
-        <section class="intro-card">
-            <h2>🔒 Bienvenue sur CYRIL KELVIN Drive</h2>
-            <p>Le coffre-fort numérique sécurisé. Créez un coffre, stockez vos fichiers et accédez-y partout. Vos données sont classées par catégories automatiquement.</p>
-        </section>
+    <!-- PAGE D'ACCUEIL (LANDING) -->
+    <div id="landing-page" class="landing-container">
+        <div class="hero-content">
+            <div class="badge">Sécurité Militaire 🔐</div>
+            <h1>CYRIL KELVIN <span class="gold-text">DRIVE</span></h1>
+            <p>Le coffre-fort numérique 3D ultra-sécurisé. Protégez vos souvenirs avec un accès privé et un design d'exception.</p>
+            <div class="hero-stats">
+                <span>⚡ Upload Parallèle</span>
+                <span>💎 Style Premium</span>
+                <span>📱 Mobile First</span>
+            </div>
+            <button class="btn-main-start" onclick="enterApp()">Accéder à mes coffres</button>
+        </div>
+    </div>
 
+    <!-- APPLICATION PRINCIPALE -->
+    <div id="main-app" class="app-container" style="display:none;">
         <header>
             <div class="logo">
                 <i data-lucide="shield-check" class="gold-icon"></i>
                 <h1>CK <span>DRIVE</span></h1>
             </div>
             <div class="header-btns">
+                <!-- Personnalisation 3D -->
+                <div class="color-picker">
+                    <div class="dot gold" onclick="change3DColor(0xd4af37)"></div>
+                    <div class="dot blue" onclick="change3DColor(0x3777d4)"></div>
+                    <div class="dot red" onclick="change3DColor(0xd43737)"></div>
+                </div>
                 <button onclick="document.getElementById('modal-forgot').style.display='flex'" class="btn-text">Pass oublié ?</button>
-                <button class="btn-primary" onclick="document.getElementById('modal-create').style.display='flex'">
-                    <i data-lucide="plus"></i> Nouveau
-                </button>
+                <button class="btn-primary" onclick="document.getElementById('modal-create').style.display='flex'"><i data-lucide="plus"></i> Nouveau</button>
             </div>
         </header>
         <main id="vault-grid"></main>
     </div>
 
+    <!-- MODALS -->
     <div id="modal-create" class="modal">
         <div class="modal-content">
             <h2>Nouveau Coffre</h2>
@@ -50,10 +66,10 @@
     <div id="modal-forgot" class="modal">
         <div class="modal-content">
             <h2>Récupération</h2>
-            <p>Remplissez ce formulaire. Votre mot de passe vous sera envoyé par WhatsApp par l'un de nos agents.</p>
-            <input type="text" id="recup-nom" placeholder="Votre Nom complet">
+            <p>Remplissez le formulaire, un agent vous contactera sur WhatsApp.</p>
+            <input type="text" id="recup-nom" placeholder="Votre Nom">
             <input type="text" id="recup-vault" placeholder="Nom du coffre">
-            <input type="text" id="recup-phone" placeholder="Votre Numéro WhatsApp">
+            <input type="text" id="recup-phone" placeholder="Votre WhatsApp">
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeModals()">Annuler</button>
                 <button class="btn-gold" onclick="sendRecoveryWhatsApp()">Envoyer</button>
@@ -61,6 +77,7 @@
         </div>
     </div>
 
+    <!-- VUE COFFRE -->
     <div id="vault-view" class="vault-overlay">
         <div class="vault-header">
             <div class="vault-info">
@@ -70,6 +87,12 @@
                     <p id="current-vault-title" class="gold-text"></p>
                 </div>
             </div>
+            
+            <div class="search-box">
+                <i data-lucide="search"></i>
+                <input type="text" id="search-input" placeholder="Rechercher..." oninput="filterFiles()">
+            </div>
+
             <div class="vault-btns">
                 <input type="file" id="file-upload" multiple onchange="handleFileUpload(event)" hidden>
                 <button class="btn-gold" onclick="document.getElementById('file-upload').click()"><i data-lucide="upload-cloud"></i> Upload</button>
@@ -78,27 +101,30 @@
         </div>
 
         <div id="upload-progress-container" class="progress-container" style="display: none;">
-            <div class="progress-info">
-                <span id="upload-status">Chargement...</span>
-                <span id="upload-percentage">0%</span>
-            </div>
-            <div class="progress-bar-bg">
-                <div id="progress-bar-fill" class="progress-bar-fill"></div>
-            </div>
+            <div class="progress-info"><span id="upload-status">Upload...</span><span id="upload-percentage">0%</span></div>
+            <div class="progress-bar-bg"><div id="progress-bar-fill" class="progress-bar-fill"></div></div>
         </div>
         
         <div id="file-sections"></div>
     </div>
 
-    <!-- NOUVEAU : Lecteur plein écran -->
-    <div id="media-viewer" class="modal" onclick="this.style.display='none'">
-        <span class="close-viewer">&times;</span>
-        <div class="viewer-content" onclick="event.stopPropagation()">
+    <!-- LECTEUR PLEIN ÉCRAN (DIAPORAMA) -->
+    <div id="media-viewer" class="viewer-overlay">
+        <span class="close-viewer" onclick="document.getElementById('media-viewer').style.display='none'">&times;</span>
+        
+        <button class="nav-btn prev" onclick="prevMedia()">&#10094;</button>
+        <div class="viewer-content">
             <img id="viewer-img" src="" style="display:none;">
             <video id="viewer-vid" src="" controls style="display:none;"></video>
+        </div>
+        <button class="nav-btn next" onclick="nextMedia()">&#10095;</button>
+
+        <div class="viewer-actions">
+            <button id="viewer-download-btn" class="btn-gold"><i data-lucide="download"></i> Télécharger</button>
+            <button id="viewer-share-btn" class="btn-gold"><i data-lucide="send"></i> WhatsApp</button>
         </div>
     </div>
 
     <script type="module" src="script.js"></script>
 </body>
-</html>
+            </html>
