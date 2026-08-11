@@ -3,7 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- TITRE ET DESCRIPTION POUR GOOGLE -->
     <title>CYRIL KELVIN Drive | Premium Storage</title>
+    <meta name="description" content="Le coffre-fort numérique sécurisé en 3D. Créez un coffre privé, stockez vos photos et vidéos et accédez-y partout en toute sécurité.">
+
+    <!-- BALISES OPEN GRAPH (WhatsApp, Facebook, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://acyril-ai.github.io/">
+    <meta property="og:title" content="CYRIL KELVIN Drive | Coffre-fort Numérique">
+    <meta property="og:description" content="Sécurisez vos fichiers précieux dans un environnement 3D premium. Vos données sont classées automatiquement et protégées par mot de passe.">
+    <meta property="og:image" content="https://acyril-ai.github.io/ck-drive.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- BALISES TWITTER (X) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://acyril-ai.github.io/">
+    <meta name="twitter:title" content="CYRIL KELVIN Drive | Premium Storage">
+    <meta name="twitter:description" content="Le coffre-fort numérique sécurisé en 3D. Créez un coffre privé et stockez vos fichiers en toute sécurité.">
+    <meta name="twitter:image" content="https://acyril-ai.github.io/ck-drive.jpg">
+
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -50,7 +70,7 @@
     <div id="modal-forgot" class="modal">
         <div class="modal-content">
             <h2>Récupération</h2>
-            <p>Remplissez ce formulaire. Votre mot de passe vous sera envoyé par WhatsApp par l'un de nos agents.</p>
+            <p>Remplissez ce formulaire. Votre mot de passe vous sera envoyé par WhatsApp par l'un des nos agents.</p>
             <input type="text" id="recup-nom" placeholder="Votre Nom complet">
             <input type="text" id="recup-vault" placeholder="Nom du coffre">
             <input type="text" id="recup-phone" placeholder="Votre Numéro WhatsApp">
@@ -90,7 +110,7 @@
         <div id="file-sections"></div>
     </div>
 
-    <!-- NOUVEAU : Lecteur plein écran -->
+    <!-- Lecteur plein écran -->
     <div id="media-viewer" class="modal" onclick="this.style.display='none'">
         <span class="close-viewer">&times;</span>
         <div class="viewer-content" onclick="event.stopPropagation()">
@@ -101,4 +121,4 @@
 
     <script type="module" src="script.js"></script>
 </body>
-    </html>
+                    </html>
