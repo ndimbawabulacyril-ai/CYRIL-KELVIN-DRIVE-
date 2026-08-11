@@ -15,7 +15,6 @@
     <canvas id="bg-canvas"></canvas>
 
     <div class="app-container">
-        <!-- Message d'introduction -->
         <section class="intro-card">
             <h2>🔒 Bienvenue sur CYRIL KELVIN Drive</h2>
             <p>Le coffre-fort numérique sécurisé. Créez un coffre, stockez vos fichiers et accédez-y partout. Vos données sont classées par catégories automatiquement.</p>
@@ -33,11 +32,9 @@
                 </button>
             </div>
         </header>
-
         <main id="vault-grid"></main>
     </div>
 
-    <!-- Modal Création -->
     <div id="modal-create" class="modal">
         <div class="modal-content">
             <h2>Nouveau Coffre</h2>
@@ -50,7 +47,6 @@
         </div>
     </div>
 
-    <!-- Modal WhatsApp -->
     <div id="modal-forgot" class="modal">
         <div class="modal-content">
             <h2>Récupération</h2>
@@ -65,7 +61,6 @@
         </div>
     </div>
 
-    <!-- Vue Intérieur du Coffre -->
     <div id="vault-view" class="vault-overlay">
         <div class="vault-header">
             <div class="vault-info">
@@ -82,7 +77,6 @@
             </div>
         </div>
 
-        <!-- Barre de Progression -->
         <div id="upload-progress-container" class="progress-container" style="display: none;">
             <div class="progress-info">
                 <span id="upload-status">Chargement...</span>
@@ -96,6 +90,15 @@
         <div id="file-sections"></div>
     </div>
 
+    <!-- NOUVEAU : Lecteur plein écran -->
+    <div id="media-viewer" class="modal" onclick="this.style.display='none'">
+        <span class="close-viewer">&times;</span>
+        <div class="viewer-content" onclick="event.stopPropagation()">
+            <img id="viewer-img" src="" style="display:none;">
+            <video id="viewer-vid" src="" controls style="display:none;"></video>
+        </div>
+    </div>
+
     <script type="module" src="script.js"></script>
 </body>
-    </html>
+</html>
