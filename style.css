@@ -2,7 +2,6 @@
     --bg: #05050a;
     --midnight: #0a0a1a;
     --gold: #d4af37;
-    --gold-bright: #f9e27d;
     --white: #ffffff;
     --glass: rgba(20, 20, 35, 0.85);
 }
@@ -35,7 +34,6 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 .vault-header { width: 100%; max-width: 1100px; display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #222; margin-bottom: 20px; }
 .vault-btns { display: flex; gap: 8px; }
 
-/* Barre de progression */
 .progress-container { width: 100%; max-width: 600px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px; margin: 10px auto 25px; border: 1px solid rgba(212, 175, 55, 0.3); }
 .progress-info { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 8px; color: var(--gold); }
 .progress-bar-bg { width: 100%; height: 8px; background: #111; border-radius: 4px; overflow: hidden; }
@@ -45,13 +43,19 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 .category-title { border-left: 4px solid var(--gold); padding-left: 12px; margin-bottom: 15px; font-size: 1.1rem; color: var(--gold); }
 .file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
 .file-item { background: var(--glass); border-radius: 10px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1); }
-.file-item img, .file-item video { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.file-item img, .file-item video { width: 100%; aspect-ratio: 1; object-fit: cover; cursor: pointer; }
 .file-info { padding: 8px; font-size: 0.7rem; color: #aaa; }
 
-.btn-delete { position: absolute; top: 5px; right: 5px; background: rgba(255, 50, 50, 0.85); border: none; color: white; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; z-index: 10; font-weight: bold; }
-.gold-text { color: var(--gold); font-size: 0.9rem; }
+.btn-delete { position: absolute; top: 5px; right: 5px; background: rgba(255, 50, 50, 0.9); border: none; color: white; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; z-index: 10; font-weight: bold; }
+
+/* NOUVEAU : Bouton téléchargement individuel */
+.btn-download-single { position: absolute; top: 5px; left: 5px; background: rgba(212, 175, 55, 0.9); border: none; color: #000; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+
+/* NOUVEAU : Style Lecteur Plein Écran */
+.viewer-content { max-width: 90vw; max-height: 85vh; display: flex; align-items: center; justify-content: center; }
+.viewer-content img, .viewer-content video { max-width: 100%; max-height: 85vh; border-radius: 10px; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+.close-viewer { position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; }
 
 @media (max-width: 700px) {
     .vault-header { flex-direction: column; gap: 15px; text-align: center; }
-    .vault-btns { width: 100%; justify-content: center; }
-                      }
+                }
