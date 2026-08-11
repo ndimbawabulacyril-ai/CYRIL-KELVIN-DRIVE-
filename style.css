@@ -59,3 +59,43 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 @media (max-width: 700px) {
     .vault-header { flex-direction: column; gap: 15px; text-align: center; }
                 }
+/* Garde tout ton ancien CSS et ajoute ceci à la fin */
+
+.vault-search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    padding: 0 10px;
+}
+
+.vault-search-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 30px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    backdrop-filter: blur(10px);
+}
+
+.vault-search-box i {
+    color: #d4af37; /* Couleur Or */
+    width: 20px;
+    margin-right: 12px;
+}
+
+.vault-search-box input {
+    background: none;
+    border: none;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    width: 100%;
+}
+
+.vault-search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
