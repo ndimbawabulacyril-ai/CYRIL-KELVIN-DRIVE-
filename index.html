@@ -53,6 +53,15 @@
                 </button>
             </div>
         </header>
+
+        <!-- NOUVEAU : Barre de recherche des coffres -->
+        <div class="vault-search-container">
+            <div class="vault-search-box">
+                <i data-lucide="search"></i>
+                <input type="text" id="vault-search-input" placeholder="Rechercher un coffre..." oninput="filterVaults()">
+            </div>
+        </div>
+
         <main id="vault-grid"></main>
     </div>
 
@@ -111,7 +120,6 @@
         <div id="file-sections"></div>
     </div>
 
-    <!-- Lecteur plein écran -->
     <div id="media-viewer" class="modal" onclick="this.style.display='none'">
         <span class="close-viewer">&times;</span>
         <div class="viewer-content" onclick="event.stopPropagation()">
@@ -122,4 +130,4 @@
 
     <script type="module" src="script.js"></script>
 </body>
-                    </html>
+        </html>
