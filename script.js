@@ -20,7 +20,9 @@ scene.add(particles);
 function animate() { requestAnimationFrame(animate); particles.rotation.y += 0.001; renderer.render(scene, camera); }
 animate();
 
+// --- VARIABLES POUR LA RECHERCHE ---
 let currentVault = null;
+let allVaults = []; // Stocke tous les coffres pour le filtre
 
 window.closeModals = () => document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
 
@@ -34,11 +36,32 @@ window.sendRecoveryWhatsApp = () => {
     window.closeModals();
 };
 
+// --- CHARGEMENT DES COFFRES (MODIFIÉ POUR LE TRI A-Z) ---
 async function loadVaults() {
-    const { data } = await supabase.from('vaults').select('*').order('created_at', { ascending: false });
+    // On trie par 'name' au lieu de 'created_at'
+    const { data, error } = await supabase
+        .from('vaults')
+        .select('*')
+        .order('name', { ascending: true });
+
+    if (!error) {
+        allVaults = data || []; // On sauvegarde la liste
+        renderVaults(allVaults); // On affiche
+    }
+}
+
+// --- FILTRE DE RECHERCHE (NOUVEAU) ---
+window.filterVaults = () => {
+    const term = document.getElementById('vault-search-input').value.toLowerCase();
+    const filtered = allVaults.filter(v => v.name.toLowerCase().includes(term));
+    renderVaults(filtered);
+};
+
+// --- FONCTION D'AFFICHAGE DES COFFRES (EXTRAITE POUR RÉUTILISATION) ---
+function renderVaults(vaultsToDisplay) {
     const grid = document.getElementById('vault-grid');
     grid.innerHTML = '';
-    data?.forEach(v => {
+    vaultsToDisplay.forEach(v => {
         const div = document.createElement('div');
         div.className = 'vault-card';
         div.innerHTML = `<i data-lucide="lock"></i><h3>${v.name}</h3>`;
