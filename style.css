@@ -85,6 +85,32 @@ header { display: flex; justify-content: space-between; align-items: center; pad
     width: 20px;
     margin-right: 12px;
 }
+/* Style du bouton Annuler */
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05); /* Fond très léger */
+    color: #888; /* Texte gris doux */
+    border: 1px solid #333; /* Bordure fine sombre */
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-color: #d4af37; /* Devient doré au survol */
+}
+
+/* Pour bien aligner les deux boutons côte à côte */
+.modal-actions {
+    display: flex;
+    gap: 15px; /* Espace entre Annuler et Envoyer */
+    justify-content: center;
+    margin-top: 20px;
+}
 
 .vault-search-box input {
     background: none;
