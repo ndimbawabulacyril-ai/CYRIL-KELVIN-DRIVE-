@@ -56,6 +56,7 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 .viewer-content img, .viewer-content video { max-width: 100%; max-height: 85vh; border-radius: 10px; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
 .close-viewer { position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; }
 
+
 @media (max-width: 700px) {
     .vault-header { flex-direction: column; gap: 15px; text-align: center; }
                 }
@@ -124,4 +125,39 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 
 .vault-search-box input::placeholder {
     color: rgba(255, 255, 255, 0.4);
+}
+/* Style du bouton Pass oublié */
+.btn-text {
+    background: none;
+    border: none;
+    color: #d4af37; /* Couleur Or */
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s ease;
+    white-space: nowrap; /* Empêche le texte de se couper en deux lignes */
+    padding: 5px 10px;
+    opacity: 0.8;
+}
+
+.btn-text:hover {
+    opacity: 1;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+}
+
+/* Ajustement du header pour mobile */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap; /* Garde tout sur une ligne */
+}
+
+.header-btns {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
